@@ -27,14 +27,14 @@ const definitions = [
   {
     client_name: "Alpha-test Humility Showdown",
     client_uri: "https://pt-heart.vercel.app",
-    redirect_uris: ["https://pt-heart.vercel.app/auth/callback"],
+    redirect_uris: ["https://pt-heart.vercel.app/api/auth-callback"],
     keychain_service:
       "point-taken-identity-oauth-heart-production-client-secret",
   },
   {
     client_name: "Alpha-test Humility Showdown (local)",
     client_uri: "http://localhost:5273",
-    redirect_uris: ["http://localhost:5273/auth/callback"],
+    redirect_uris: ["http://localhost:5273/api/auth-callback"],
     keychain_service: "point-taken-identity-oauth-heart-local-client-secret",
   },
 ];
@@ -62,11 +62,22 @@ for (const definition of definitions) {
     (client) => client.client_name === definition.client_name,
   );
   if (existing) {
+    const { data, error } = await supabase.auth.admin.oauth.updateClient(
+      existing.client_id,
+      {
+        client_name: definition.client_name,
+        client_uri: definition.client_uri,
+        redirect_uris: definition.redirect_uris,
+        grant_types: ["authorization_code", "refresh_token"],
+        token_endpoint_auth_method: "client_secret_basic",
+      },
+    );
+    if (error) throw error;
     results.push({
-      name: existing.client_name,
-      client_id: existing.client_id,
-      redirect_uris: existing.redirect_uris,
-      status: "existing",
+      name: data.client_name,
+      client_id: data.client_id,
+      redirect_uris: data.redirect_uris,
+      status: "existing_configuration_refreshed",
     });
     continue;
   }
