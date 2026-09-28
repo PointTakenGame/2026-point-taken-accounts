@@ -21,12 +21,7 @@ export default async function SignIn({
   return (
     <main className="shell">
       <section className="card">
-        <span className="eyebrow">One account, both games</span>
-        <h1>Point Taken</h1>
-        <p className="lede">
-          Sign in once to play Brain and Humility Showdown. We use a verified
-          email so your account can come back on another device.
-        </p>
+        <h1>Sign in or Make New Account</h1>
 
         {sent ? (
           <p className="notice" role="status">
@@ -47,9 +42,9 @@ export default async function SignIn({
 
         <EmailSignInForm siteKey={siteKey} next={next} />
         <p className="fine-print">
-          No password and no guest account. The emailed link verifies your
-          identity. By continuing, you agree to the Point Taken Terms of Use and
-          Privacy Policy.
+          By continuing, you agree to the Point Taken{" "}
+          <a href="https://pointtaken.social/terms-of-use">Terms of Use</a> and{" "}
+          <a href="https://pointtaken.social/privacy-policy">Privacy Policy</a>.
         </p>
       </section>
     </main>
