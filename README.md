@@ -3,6 +3,10 @@
 Shared identity and OAuth authorization UI for Point Taken Brain and Point Taken
 Heart.
 
+Brain and Heart are exact-ID allowlisted first-party clients. After sign-in,
+their OAuth authorization requests are approved server-side without an
+intermediate consent screen; all other clients are denied.
+
 - Production URL: `https://auth.pointtaken.social`
 - Supabase project: `point-taken-identity`
 - Supabase ref: `obymwevdiixeupfsvbaa`

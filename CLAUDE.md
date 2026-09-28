@@ -23,9 +23,11 @@ identity.
 
 ## Scope
 
-This app owns sign-in, callback handling, OAuth consent, account identity, and
-logout. Brain owns Brain data. Heart owns Heart data. The marketing site only
-links here.
+This app owns sign-in, callback handling, OAuth authorization, account identity,
+and logout. The exact allowlisted first-party Brain and Heart clients are
+approved without a player-facing consent screen; every other client is denied.
+Brain owns Brain data. Heart owns Heart data. The marketing site only links
+here.
 
 ## Gate
 

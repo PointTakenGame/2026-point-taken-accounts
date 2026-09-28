@@ -1,10 +1,6 @@
 import { redirect } from "next/navigation";
 import { sessionClient } from "@/lib/supabase/server";
-
-type AuthorizationDetails = {
-  client?: { name?: string };
-  scope?: string;
-};
+import { isTrustedOAuthClient } from "@/lib/trusted-oauth-client";
 
 export const dynamic = "force-dynamic";
 
@@ -34,47 +30,31 @@ export default async function Consent({
     );
   }
   if ("redirect_url" in data) redirect(data.redirect_url);
-  const details = data as unknown as AuthorizationDetails;
-  const clientName = details.client?.name ?? "a Point Taken game";
-  const scopes = details.scope?.split(" ").filter(Boolean) ?? [];
 
-  return (
-    <main className="shell">
-      <section className="card stack">
-        <span className="eyebrow">Shared Point Taken identity</span>
-        <h1>Continue to {clientName}</h1>
-        <p className="lede">
-          This lets {clientName} recognize your Point Taken account. Your email
-          remains in the identity service and is not copied into the game
-          database.
-        </p>
-        {scopes.length ? (
-          <p className="muted">Requested access: {scopes.join(", ")}</p>
-        ) : null}
-        <form className="actions" action="/api/oauth/decision" method="post">
-          <input
-            type="hidden"
-            name="authorization_id"
-            value={authorizationId}
-          />
-          <button
-            className="button"
-            type="submit"
-            name="decision"
-            value="approve"
-          >
-            Continue
-          </button>
-          <button
-            className="button secondary"
-            type="submit"
-            name="decision"
-            value="deny"
-          >
-            Cancel
-          </button>
-        </form>
-      </section>
-    </main>
-  );
+  const trusted = isTrustedOAuthClient(data.client.id);
+  const result = trusted
+    ? await supabase.auth.oauth.approveAuthorization(authorizationId, {
+        skipBrowserRedirect: true,
+      })
+    : await supabase.auth.oauth.denyAuthorization(authorizationId, {
+        skipBrowserRedirect: true,
+      });
+
+  if (result.error || !result.data?.redirect_url) {
+    console.error("OAuth authorization could not be completed", {
+      clientId: data.client.id,
+      trusted,
+      error: result.error
+        ? {
+            name: result.error.name,
+            message: result.error.message,
+            status: result.error.status,
+            code: result.error.code,
+          }
+        : null,
+    });
+    redirect("/signin?failed=Authorization%20could%20not%20be%20completed.");
+  }
+
+  redirect(result.data.redirect_url);
 }
