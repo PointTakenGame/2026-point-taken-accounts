@@ -41,3 +41,7 @@ the browser token is submitted once to Supabase to prevent replay failures.
 Brain and Heart are registered separately, with exact production callback URLs
 and separate development clients. Client secrets belong in each confidential
 client's deployment environment, never in this repository.
+
+Canonical production clients are `https://brain.pointtaken.social` and
+`https://heart.pointtaken.social`. The legacy Brain and Heart URLs remain in
+the callback lists only during the migration window.

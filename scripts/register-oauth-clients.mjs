@@ -13,8 +13,9 @@ if (!url || !secret) {
 const definitions = [
   {
     client_name: "Point Taken Brain",
-    client_uri: "https://play.pointtaken.social",
+    client_uri: "https://brain.pointtaken.social",
     redirect_uris: [
+      "https://brain.pointtaken.social/auth/identity/callback",
       "https://play.pointtaken.social/auth/identity/callback",
       "https://point-taken-2026.vercel.app/auth/identity/callback",
     ],
@@ -29,8 +30,11 @@ const definitions = [
   },
   {
     client_name: "Alpha-test Humility Showdown",
-    client_uri: "https://pt-heart.vercel.app",
-    redirect_uris: ["https://pt-heart.vercel.app/api/auth-callback"],
+    client_uri: "https://heart.pointtaken.social",
+    redirect_uris: [
+      "https://heart.pointtaken.social/api/auth-callback",
+      "https://pt-heart.vercel.app/api/auth-callback",
+    ],
     keychain_service:
       "point-taken-identity-oauth-heart-production-client-secret",
   },

@@ -15,16 +15,23 @@ export default async function Account() {
         <h1>You are signed in</h1>
         <p className="lede">{data.user.email ?? "Verified identity"}</p>
         <div className="actions">
-          <a className="button" href="https://play.pointtaken.social">
+          <a className="button" href="https://brain.pointtaken.social">
             Play Brain
           </a>
-          <a className="button secondary" href="https://pt-heart.vercel.app">
+          <a
+            className="button secondary"
+            href="https://heart.pointtaken.social"
+          >
             Play Heart
           </a>
         </div>
-        <form action="/api/auth/signout" method="post">
-          <button className="button secondary" type="submit">
-            Sign out on this browser
+        <form
+          className="account-signout"
+          action="/api/auth/signout"
+          method="post"
+        >
+          <button className="text-button" type="submit">
+            Sign out
           </button>
         </form>
       </section>

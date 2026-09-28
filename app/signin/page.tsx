@@ -11,6 +11,7 @@ export default async function SignIn({
   const query = await searchParams;
   const next = safeNextPath(query.next);
   const sent = query.sent === "1";
+  const signedOut = query.signed_out === "1";
   const failed = typeof query.failed === "string" ? query.failed : null;
   const siteKey =
     process.env.CAPTCHA_ENFORCED === "true"
@@ -33,6 +34,11 @@ export default async function SignIn({
             will arrive shortly.
           </p>
         ) : null}
+        {signedOut ? (
+          <p className="notice" role="status">
+            You’re signed out.
+          </p>
+        ) : null}
         {failed ? (
           <p className="notice error" role="alert">
             {failed}
@@ -41,9 +47,9 @@ export default async function SignIn({
 
         <EmailSignInForm siteKey={siteKey} next={next} />
         <p className="fine-print">
-          No password and no guest account. The link verifies that the address
-          belongs to you. By continuing, you agree to the Point Taken Terms of
-          Use and Privacy Policy.
+          No password and no guest account. The emailed link verifies your
+          identity. By continuing, you agree to the Point Taken Terms of Use and
+          Privacy Policy.
         </p>
       </section>
     </main>

@@ -160,6 +160,26 @@ h2 {
   align-items: center;
 }
 
+.account-signout {
+  margin-top: 8px;
+  padding-top: 18px;
+  border-top: 1px solid #4d4c4a33;
+}
+
+.text-button {
+  border: 0;
+  background: transparent;
+  padding: 4px 0;
+  color: var(--soft);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.text-button:hover {
+  color: var(--ink);
+}
+
 .fine-print {
   margin: 18px 0 0;
   color: var(--soft);
