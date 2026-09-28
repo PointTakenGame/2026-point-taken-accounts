@@ -14,7 +14,10 @@ const definitions = [
   {
     client_name: "Point Taken Brain",
     client_uri: "https://play.pointtaken.social",
-    redirect_uris: ["https://play.pointtaken.social/auth/identity/callback"],
+    redirect_uris: [
+      "https://play.pointtaken.social/auth/identity/callback",
+      "https://point-taken-2026.vercel.app/auth/identity/callback",
+    ],
     keychain_service:
       "point-taken-identity-oauth-brain-production-client-secret",
   },
