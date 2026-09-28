@@ -3,6 +3,6 @@ node_modules/
 .env*
 !.env.example
 *.tsbuildinfo
+# Vercel CLI linkage and pulled runtime credentials stay local.
 .vercel/
 coverage/
-
