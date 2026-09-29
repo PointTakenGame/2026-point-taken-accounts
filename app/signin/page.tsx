@@ -13,6 +13,7 @@ export default async function SignIn({
   const sent = query.sent === "1";
   const signedOut = query.signed_out === "1";
   const failed = typeof query.failed === "string" ? query.failed : null;
+  const requestAnotherHref = `/signin?next=${encodeURIComponent(next)}`;
   const siteKey =
     process.env.CAPTCHA_ENFORCED === "true"
       ? process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY
@@ -24,10 +25,17 @@ export default async function SignIn({
         <h1>Sign in or Make New Account</h1>
 
         {sent ? (
-          <p className="notice" role="status">
-            Check your email. If the address can receive a Point Taken link, it
-            will arrive shortly.
-          </p>
+          <>
+            <p className="notice" role="status">
+              Check your email. Use the newest Point Taken email: requesting
+              another link makes earlier links inactive.
+            </p>
+            <p>
+              <a className="text-button" href={requestAnotherHref}>
+                Send another link
+              </a>
+            </p>
+          </>
         ) : null}
         {signedOut ? (
           <p className="notice" role="status">
@@ -40,7 +48,7 @@ export default async function SignIn({
           </p>
         ) : null}
 
-        <EmailSignInForm siteKey={siteKey} next={next} />
+        {sent ? null : <EmailSignInForm siteKey={siteKey} next={next} />}
         <p className="fine-print">
           By continuing, you agree to the Point Taken{" "}
           <a href="https://pointtaken.social/terms-of-use">Terms of Use</a> and{" "}
