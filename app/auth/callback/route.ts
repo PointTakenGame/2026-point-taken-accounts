@@ -2,22 +2,32 @@ import { NextResponse } from "next/server";
 import { safeNextPath } from "@/lib/next-path";
 import { sessionClient } from "@/lib/supabase/server";
 
-const inactiveLinkMessage =
-  "That sign-in link is no longer active. Open the newest Point Taken email, or request a new link.";
+const inactiveRequestMessage =
+  "That sign-in link or request is no longer active. Try again.";
 
 export async function GET(request: Request) {
   const url = new URL(request.url);
   const next = safeNextPath(url.searchParams.get("next"));
-  const refused =
-    url.searchParams.get("error_description") ?? url.searchParams.get("error");
+  const refusal = url.searchParams.get("error");
+  const refused = url.searchParams.get("error_description") ?? refusal;
+
+  if (refusal === "access_denied") {
+    // The person cancelled at the provider. Return them to sign-in quietly.
+    const signin = new URL("/signin", url);
+    signin.searchParams.set("next", next);
+    return NextResponse.redirect(signin);
+  }
 
   if (refused) {
-    console.warn("Supabase rejected an email sign-in callback", {
-      error: url.searchParams.get("error"),
+    console.warn("Supabase rejected a sign-in callback", {
+      error: refusal,
       errorCode: url.searchParams.get("error_code"),
     });
     return NextResponse.redirect(
-      new URL(`/signin?failed=${encodeURIComponent(inactiveLinkMessage)}`, url),
+      new URL(
+        `/signin?failed=${encodeURIComponent(inactiveRequestMessage)}`,
+        url,
+      ),
     );
   }
 
@@ -25,7 +35,7 @@ export async function GET(request: Request) {
   if (!code) {
     return NextResponse.redirect(
       new URL(
-        `/signin?failed=${encodeURIComponent("That sign-in link is incomplete. Ask for a fresh one.")}`,
+        `/signin?failed=${encodeURIComponent(inactiveRequestMessage)}`,
         url,
       ),
     );
@@ -43,13 +53,16 @@ export async function GET(request: Request) {
       return NextResponse.redirect(new URL(next, url));
     }
 
-    console.warn("Supabase could not exchange an email sign-in code", {
+    console.warn("Supabase could not exchange a sign-in code", {
       name: error.name,
       code: error.code,
       status: error.status,
     });
     return NextResponse.redirect(
-      new URL(`/signin?failed=${encodeURIComponent(inactiveLinkMessage)}`, url),
+      new URL(
+        `/signin?failed=${encodeURIComponent(inactiveRequestMessage)}`,
+        url,
+      ),
     );
   }
 

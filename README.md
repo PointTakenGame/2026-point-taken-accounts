@@ -17,6 +17,23 @@ intermediate consent screen; all other clients are denied.
 The identity database contains only Supabase Auth's own identity data. Game
 profiles and game data stay in each game's database.
 
+## Ways to sign in
+
+- **Continue with Google.** `/api/auth/google` starts Supabase's Google OAuth
+  flow with PKCE; the verifier lives in this app's session cookies.
+- **Email link.** `/api/auth/email` sends a Supabase magic link after a
+  Turnstile check.
+
+Both return through `/auth/callback`, which exchanges the code for a session
+and continues to the safe `next` path, such as
+`/oauth/consent?authorization_id=...` when Brain or Heart started the sign-in.
+If the person cancels at Google, the callback returns to `/signin` without an
+error.
+
+Supabase matches identities by verified email: signing in with Google using
+the same verified address as an existing email account reaches the same
+account.
+
 ## Local setup
 
 Copy `.env.example` to `.env.local`, fill the publishable key and Turnstile test
@@ -39,6 +56,19 @@ Local development runs at `http://localhost:3200`.
 The app intentionally refuses to send sign-in email in production when
 Turnstile is not configured. Supabase Auth owns server-side CAPTCHA validation;
 the browser token is submitted once to Supabase to prevent replay failures.
+
+### Supabase Auth
+
+- Google provider enabled, with the Google OAuth client ID and secret stored
+  only in the Supabase dashboard.
+- The Google OAuth client lists
+  `https://obymwevdiixeupfsvbaa.supabase.co/auth/v1/callback` as an authorized
+  redirect URI.
+- Redirect URLs allow `/auth/callback` for every place this app runs. The
+  callback carries `next` as a query parameter, so each entry ends in `**`:
+  - Production: `https://auth.pointtaken.social/auth/callback**`
+  - Local development: `http://localhost:3200/auth/callback**`
+  - Vercel previews: `https://*-<vercel-team-slug>.vercel.app/auth/callback**`
 
 ## OAuth clients
 
