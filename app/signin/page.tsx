@@ -1,4 +1,5 @@
 import { EmailSignInForm } from "@/components/email-signin-form";
+import { GoogleSignInButton } from "@/components/google-signin-button";
 import { safeNextPath } from "@/lib/next-path";
 
 export const dynamic = "force-dynamic";
@@ -48,7 +49,15 @@ export default async function SignIn({
           </p>
         ) : null}
 
-        {sent ? null : <EmailSignInForm siteKey={siteKey} next={next} />}
+        {sent ? null : (
+          <>
+            <GoogleSignInButton next={next} />
+            <p className="divider" aria-hidden="true">
+              <span>or</span>
+            </p>
+            <EmailSignInForm siteKey={siteKey} next={next} />
+          </>
+        )}
         <p className="fine-print">
           By continuing, you agree to the Point Taken{" "}
           <a href="https://pointtaken.social/terms-of-use">Terms of Use</a> and{" "}

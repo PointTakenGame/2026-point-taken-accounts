@@ -136,9 +136,33 @@ h2 {
   background: var(--card);
 }
 
+.button.full {
+  width: 100%;
+  gap: 12px;
+}
+
 .button:disabled {
   cursor: not-allowed;
   opacity: 0.5;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 20px 0;
+  color: var(--soft);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  flex: 1;
+  border-top: 1px solid #4d4c4a33;
 }
 
 .notice {
