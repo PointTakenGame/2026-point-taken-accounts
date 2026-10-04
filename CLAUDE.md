@@ -17,7 +17,9 @@ identity.
 - Redirect destinations are exact allowlisted URLs. Never accept an arbitrary
   return URL.
 - Authentication entry points must remain rate limited and CAPTCHA protected.
-  Production fails closed when CAPTCHA is not configured.
+  Production fails closed when CAPTCHA is not configured. The exception is
+  `/api/auth/google`: it sends no email and only redirects to Google, which
+  runs its own abuse protection, and Supabase rate limits the OAuth flow.
 - Use `getUser()` for authorization decisions. Do not trust an unverified cookie
   or `getSession()` user object.
 
