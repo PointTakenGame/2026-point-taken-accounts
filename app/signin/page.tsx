@@ -50,13 +50,17 @@ export default async function SignIn({
         ) : null}
 
         {sent ? null : (
-          <>
+          <div className="stack">
             <GoogleSignInButton next={next} />
-            <p className="divider" aria-hidden="true">
-              <span>or</span>
+            <p
+              className="fine-print"
+              aria-hidden="true"
+              style={{ margin: 0, textAlign: "center" }}
+            >
+              or
             </p>
             <EmailSignInForm siteKey={siteKey} next={next} />
-          </>
+          </div>
         )}
         <p className="fine-print">
           By continuing, you agree to the Point Taken{" "}

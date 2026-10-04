@@ -29,6 +29,7 @@ describe("GET /api/auth/google", () => {
     expect(signInWithOAuth).toHaveBeenCalledOnce();
     const { provider, options } = signInWithOAuth.mock.calls[0][0];
     expect(provider).toBe("google");
+    expect(options.skipBrowserRedirect).toBe(true);
     const callback = new URL(options.redirectTo);
     expect(callback.origin).toBe("https://auth.pointtaken.social");
     expect(callback.pathname).toBe("/auth/callback");

@@ -64,8 +64,11 @@ the browser token is submitted once to Supabase to prevent replay failures.
 - The Google OAuth client lists
   `https://obymwevdiixeupfsvbaa.supabase.co/auth/v1/callback` as an authorized
   redirect URI.
-- Redirect URLs allow `https://auth.pointtaken.social/auth/callback**` and, for
-  local development, `http://localhost:3200/auth/callback**`.
+- Redirect URLs allow `/auth/callback` for every place this app runs. The
+  callback carries `next` as a query parameter, so each entry ends in `**`:
+  - Production: `https://auth.pointtaken.social/auth/callback**`
+  - Local development: `http://localhost:3200/auth/callback**`
+  - Vercel previews: `https://*-<vercel-team-slug>.vercel.app/auth/callback**`
 
 ## OAuth clients
 
