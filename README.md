@@ -17,6 +17,12 @@ intermediate consent screen; all other clients are denied.
 The identity database contains only Supabase Auth's own identity data. Game
 profiles and game data stay in each game's database.
 
+Account deletion uses Supabase Auth soft deletion. It permanently removes the
+person's sign-in identity while leaving a non-recoverable UUID tombstone, so
+Brain and Heart can retain shared-game contributions without an identity. A
+later registration receives a new UUID and must never be reconnected to the
+former one.
+
 ## Local setup
 
 Copy `.env.example` to `.env.local`, fill the publishable key and Turnstile test
@@ -33,6 +39,7 @@ Local development runs at `http://localhost:3200`.
 
 - `NEXT_PUBLIC_SUPABASE_URL`
 - `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`
+- `SUPABASE_SECRET_KEY` (server-only; required for account deletion)
 - `NEXT_PUBLIC_TURNSTILE_SITE_KEY`
 - `CAPTCHA_ENFORCED=true`
 

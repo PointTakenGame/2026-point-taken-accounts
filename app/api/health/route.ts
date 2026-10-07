@@ -5,6 +5,7 @@ export async function GET() {
     ok: true,
     service: "point-taken-identity",
     anonymous_accounts: false,
+    account_deletion_configured: Boolean(process.env.SUPABASE_SECRET_KEY),
     captcha_configured: Boolean(
       process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY &&
       process.env.CAPTCHA_ENFORCED === "true",

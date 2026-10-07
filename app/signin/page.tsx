@@ -12,6 +12,7 @@ export default async function SignIn({
   const next = safeNextPath(query.next);
   const sent = query.sent === "1";
   const signedOut = query.signed_out === "1";
+  const deleted = query.deleted === "1";
   const failed = typeof query.failed === "string" ? query.failed : null;
   const requestAnotherHref = `/signin?next=${encodeURIComponent(next)}`;
   const siteKey =
@@ -40,6 +41,12 @@ export default async function SignIn({
         {signedOut ? (
           <p className="notice" role="status">
             You’re signed out.
+          </p>
+        ) : null}
+        {deleted ? (
+          <p className="notice" role="status">
+            Your account was deleted. Your past game contributions no longer
+            identify you.
           </p>
         ) : null}
         {failed ? (

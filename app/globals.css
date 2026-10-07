@@ -334,6 +334,16 @@ h2 {
   box-shadow: 7px 8px 0 var(--ink);
 }
 
+.game-card-disabled {
+  cursor: default;
+}
+
+.game-card-disabled:hover,
+.game-card-disabled:focus-visible {
+  transform: none;
+  box-shadow: 4px 5px 0 var(--ink);
+}
+
 .heart-art {
   display: grid;
   place-items: center;
@@ -391,7 +401,91 @@ h2 {
 }
 
 .account-card .account-signout {
+  margin-top: 0;
+}
+
+.account-management {
   margin-top: 26px;
+  padding-top: 18px;
+  border-top: 1px solid #4d4c4a33;
+}
+
+.account-management .account-signout {
+  padding-top: 0;
+  border-top: 0;
+}
+
+.account-deletion {
+  margin-top: 16px;
+}
+
+.delete-account-link {
+  border: 0;
+  background: transparent;
+  padding: 2px 0;
+  color: var(--soft);
+  font-size: 11px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.delete-account-link:hover {
+  color: #9b243c;
+}
+
+.delete-account-dialog {
+  width: min(calc(100% - 32px), 520px);
+  border: 2px solid var(--ink);
+  border-radius: 16px;
+  background: var(--card);
+  box-shadow: 7px 8px 0 var(--ink);
+  padding: 28px;
+  color: var(--ink);
+}
+
+.delete-account-dialog::backdrop {
+  background: #25242299;
+}
+
+.delete-account-dialog h2 {
+  margin: 0 38px 12px 0;
+  font-size: 26px;
+}
+
+.delete-account-dialog p {
+  color: var(--soft);
+  line-height: 1.5;
+}
+
+.dialog-close {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  border: 0;
+  background: transparent;
+  padding: 4px;
+  color: var(--soft);
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.delete-account-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.button.destructive {
+  background: #bd334f;
+  color: white;
+}
+
+.account-delete-error {
+  margin: 24px 0 0;
 }
 
 @media (max-width: 620px) {
